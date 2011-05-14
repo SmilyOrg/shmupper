@@ -1,0 +1,4 @@
+syntax: glob
+inputserver/InputServer/build/*
+shmupper/obj/*
+shmupper/SFXR/*

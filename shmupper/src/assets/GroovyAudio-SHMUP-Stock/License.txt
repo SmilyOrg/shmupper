@@ -1,0 +1,27 @@
+Introduction
+============
+Hi and congratulations on obtaining this stock library which I created for the Shoot'em Up 
+indie developers at http://www.shmup-dev.com to encourage and assist new development of 
+Shoot'em Up games.
+
+I hae been a professional sound designer and composer in the Video Games Industry since 2002. 
+This library was created as a gift back to the indie development community which helped me 
+build my experience on such projects as: Adventures of BOBO, WarBlade, Rick Dangerous X-Mas GBA, 
+Monkey's Oddysee.
+
+
+
+Terms of License
+================
+You may use these sound effects royalty free for non-commercial video game projects. You will
+obtain permission prior to any commercial release (this includes Shareware).
+
+1) These sounds are not granted for use on Television or Film products without prior consent.
+2) User must give credit to GroovyAudio for Sound Design.
+3) Permission must be obtained to use these sounds in any game product for commercial gain.
+4) Copyright remains with GroovyAudio.
+
+
+Yannis Brown
+www.GroovyAudio.com
+(c)opyright GroovyAudio October 2006
