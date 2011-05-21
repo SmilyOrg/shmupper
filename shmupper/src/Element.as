@@ -3,40 +3,48 @@
 	import flash.display.Sprite;
 	import flash.geom.Point;
 	public class Element implements IElement {
-		protected var p:Point;
-		protected var v:Point;
 		
-		public function Element(p:Point = null, v:Point = null) {
-			if (!p) p = new Point();
-			if (!v) v = new Point();
-			this.p = p;
-			this.v = v;
+		protected var prev:ElementState;
+		protected var cur:ElementState;
+		
+		public function Element(p:Point = null) {
+			prev = new ElementState();
+			cur = new ElementState(p);
+			nextState();
 		}
 		public function set x(v:Number):void {
-			p.x = v;
+			cur.p.x = v;
 		}
 		public function get x():Number {
-			return p.x;
+			return cur.p.x;
 		}
 		public function set y(v:Number):void {
-			p.y = v;
+			cur.p.y = v;
 		}
 		public function get y():Number {
-			return p.y;
+			return cur.p.y;
 		}
+		
 		public function get position():Point {
-			return p;
+			return cur.p;
 		}
-		public function get velocity():Point {
-			return v;
+		public function get previousState():ElementState {
+			return prev;
 		}
-		public function force(dx:Number, dy:Number):void {
-			v.x += dx;
-			v.y += dy;
+		public function get currentState():ElementState {
+			return cur;
 		}
-		public function update():void {
-			p.x += v.x;
-			p.y += v.y;
+		
+		public function applyMergedState(merged:ElementState, alpha:Number):void {
+			merged.p.x = cur.p.x*alpha+prev.p.x*(1-alpha);
+			merged.p.y = cur.p.y*alpha+prev.p.y*(1-alpha);
 		}
+		
+		public function nextState():void {
+			prev.p.x = cur.p.x;
+			prev.p.y = cur.p.y;
+		}
+		
+		public function update(t:Number, dt:Number):void {};
 	}
 }

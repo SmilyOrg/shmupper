@@ -47,7 +47,7 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="lib\as3-signals-v0.7.swc" />
+    <element path="lib\as3-signals-v0.8.swc" />
     <element path="lib\DoomsdayConsole\DoomsdayConsole.swc" />
     <element path="lib\greensock.swc" />
   </libraryPaths>
@@ -82,6 +82,7 @@
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
-    <option testMovie="ExternalPlayer" />
+    <option testMovie="Custom" />
+    <option testMovieCommand="..\..\flashplayer_10.2_sa.exe;bin\Shmupper.swf" />
   </options>
 </project>

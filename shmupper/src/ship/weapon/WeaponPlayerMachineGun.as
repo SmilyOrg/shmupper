@@ -55,7 +55,8 @@ package ship.weapon {
 			if (!cooling) {
 				var spawnPoint:Point = body.localToGlobal(new Point());
 				var offsetPoint:Point = body.localToGlobal(new Point(speed, 0));
-				var b:Bullet = new PlayerBullet(spawnPoint, offsetPoint.subtract(spawnPoint));
+				//var b:Bullet = new PlayerBullet(spawnPoint, offsetPoint.subtract(spawnPoint));
+				var b:Bullet = new PlayerBullet(new SimpleElement(spawnPoint, offsetPoint.subtract(spawnPoint)));
 				//var b:Bullet = new Bullet(new Point(), new Point(1, 0));
 				//var b:Bullet = new Bullet(new Point(body.x, body.y), new Point(1, 0));
 				shot.dispatch(new GenericEvent(), b);

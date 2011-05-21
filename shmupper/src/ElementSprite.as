@@ -34,12 +34,20 @@
 		public function get velocity():Point {
 			return v;
 		}
-		public function update():void {
-			var time:Number = getTimer();
-			var dt:Number = time-prevTime;
-			prevTime = time;
-			x += v.x*dt;
-			y += v.y*dt;
+		public function applyMergedState(merged:ElementState, alpha:Number):void {
+		}
+		public function update(t:Number, dt:Number):void {
+			//var time:Number = getTimer();
+			//var dt:Number = time-prevTime;
+			//prevTime = time;
+			//x += v.x*dt;
+			//y += v.y*dt;
+		}
+		
+		/* INTERFACE IElement */
+		
+		public function nextState():void{
+			
 		}
 	}
 }

@@ -19,14 +19,16 @@ package bullet {
 		
 		public var source:Ship;
 		
-		public function Bullet(p:Point, v:Point) {
+		public function Bullet(baseElement:Element) {
 			if (!bulletImage) bulletImage = new BulletImage();
 			radius = 6;
 			//shootSound = new ShootSound();
 			//shootSound.play(0, 0, trans);
 			//super(p, v, bulletImage.bitmapData, new Point(-25, -12));
-			super(p, v, bulletImage.bitmapData, new Point(-bulletImage.width/2, -bulletImage.height/2));
+			//super(p, v, bulletImage.bitmapData, new Point(-bulletImage.width/2, -bulletImage.height/2));
 			//drag = 0;
+			
+			super(baseElement, bulletImage.bitmapData, new Point(-bulletImage.width/2, -bulletImage.height/2));
 		}
 		
 	}

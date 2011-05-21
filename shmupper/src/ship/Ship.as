@@ -104,13 +104,13 @@ package ship {
 			angleCos = Math.cos(v);
 			angleSin = Math.sin(v);
 		}
-		override public function update():void {
+		override public function update(t:Number, dt:Number):void {
 			v.x = v.y = 0;
 			for each (var b:IBehavior in behaviors) {
 				b.update(this);
 			}
 			
-			super.update();
+			super.update(t, dt);
 			
 			for each (var w:Weapon in weapons) {
 				w.update();
