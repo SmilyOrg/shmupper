@@ -1,4 +1,5 @@
 package bullet {
+	import behavior.IBehavior;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
@@ -19,16 +20,14 @@ package bullet {
 		
 		public var source:Ship;
 		
-		public function Bullet(baseElement:Element) {
+		public function Bullet(behaviors:Vector.<IBehavior> = null) {
 			if (!bulletImage) bulletImage = new BulletImage();
 			radius = 6;
-			//shootSound = new ShootSound();
-			//shootSound.play(0, 0, trans);
-			//super(p, v, bulletImage.bitmapData, new Point(-25, -12));
-			//super(p, v, bulletImage.bitmapData, new Point(-bulletImage.width/2, -bulletImage.height/2));
-			//drag = 0;
 			
-			super(baseElement, bulletImage.bitmapData, new Point(-bulletImage.width/2, -bulletImage.height/2));
+			super(bulletImage.bitmapData, new Point(-bulletImage.width/2, -bulletImage.height/2));
+			
+			if (behaviors) addBehaviors(behaviors);
+			
 		}
 		
 	}

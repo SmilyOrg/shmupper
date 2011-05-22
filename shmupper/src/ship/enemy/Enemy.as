@@ -7,9 +7,8 @@ package ship.enemy {
 	import flash.geom.Point;
 	public class Enemy extends Ship {
 		public var level:Number = 0;
-		public function Enemy(p:Point, v:Point):void {
+		public function Enemy(p:Point):void {
 			super(p);
-			//angle += Math.PI;
 		}
 		public function ai(player:Player):void {}
 	}	

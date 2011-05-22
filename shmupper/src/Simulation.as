@@ -1,4 +1,7 @@
 package  {
+	import behavior.KeyboardControlBehavior;
+	import behavior.LinearBehavior;
+	import behavior.WavyBehavior;
 	import bullet.Bullet;
 	import bullet.PlayerBullet;
 	import flash.display.Bitmap;
@@ -18,23 +21,33 @@ package  {
 	import flash.ui.Keyboard;
 	import flash.utils.getTimer;
 	import no.doomsday.console.ConsoleUtil;
-	import ship.behavior.LinearBehavior;
 	import ship.enemy.Enemy;
 	import ship.enemy.EnemyLinear;
 	import ship.enemy.EnemyWavy;
 	import ship.enemy.MediumEnemy;
 	import ship.Player;
 	import ship.Ship;
+	import ship.weapon.Cannon;
 	public class Simulation extends Sprite implements IParticleContainer {
 		private var w:Number = 800;
 		private var h:Number = 600;
 		
 		private var t:Number = 0;
-		public var dt:Number = 1/16;
+		//public var dt:Number = 1/16;
 		//public var dt:Number = 1/2;
 		
+		//public var dt:Number = int(1000/16);
+		//public var dt:Number = int(1000/2);
+		
+		public var dt:Number = 16;
+		//public var dt:Number = 100;
+		//public var dt:Number = 120;
+		//public var dt:Number = 500;
+		
 		private var player:Player;
-		private var ships:Vector.<Ship>;
+		public var ships:Vector.<Ship>;
+		
+		private var enemy:Ship;
 		
 		public var particles:Particle = null;
 		/** Particle addition queue */
@@ -58,7 +71,28 @@ package  {
 			
 			ships = new Vector.<Ship>();
 			
-			player = addShip(new Player(stage, new Point(w/2, h/2))) as Player;
+			//var enemy:Enemy = new Enemy(new Point(400, 200));
+			//enemy.addBehavior(new LinearBehavior(new Point(400, 200), 0, new Point(0, 100)));
+			//addShip(enemy);
+			
+			var s:Ship;
+			
+			enemy = s = new Ship(new Point(400, 200));
+			//s.addBehavior(new LinearBehavior(new Point(400, 200), 0, new Point(0, 100)));
+			//s.addBehavior(new KeyboardControlBehavior(stage));
+			//s.addBehavior(new WavyBehavior(new Point(400, 200), 0));
+			//s.addBehavior(new WavyBehavior(new Point(400, 200), 0, 0.005, 0.02));
+			s.addBehavior(new WavyBehavior(new Point(400, 200), 0, 200, 50, 0.02, 0.2));
+			//s.addBehavior(new WavyBehavior(new Point(400, 200), 0, 200, 50, 0.5, 3));
+			s.addWeapon(new Cannon(10, new Point(0, 0.1)));
+			addShip(s);
+			
+			s = new Ship(new Point(400, 400));
+			s.addBehavior(new KeyboardControlBehavior(stage));
+			s.addWeapon(new Cannon(50, new Point(0, -0.5)));
+			addShip(s);
+			
+			//player = addShip(new Player(stage, new Point(w/2, h/2))) as Player;
 			//player.particleAdded.add(addParticle);
 			
 			//addShip(new EnemyWavy(new Point(w/2, 40)));
@@ -79,14 +113,23 @@ package  {
 		}
 		
 		private function reset():void {
-			currentTime = getTimer()/1000;
+			currentTime = getTimer();
 			accumulator = 0;
 		}
 		
 		private function addShip(s:Ship):Ship {
+			s.elementsAdded.add(elementsAdded);
 			ships.push(s);
 			return s;
 		}
+		
+		private function elementsAdded(elements:Vector.<IElement>):void {
+			for (var i:int = 0; i < elements.length; i++) {
+				var e:IElement = elements[i];
+				if (e is Particle) addParticle(e as Particle);
+			}
+		}
+		
 		private function removeShip(s:Ship):void {
 			ships.splice(ships.indexOf(s), 1);
 		}
@@ -111,7 +154,7 @@ package  {
 		}
 		
 		public function run():void {
-			var newTime:Number = getTimer()/1000;
+			var newTime:Number = getTimer();
 			var frameTime:Number = newTime-currentTime;
 			currentTime = newTime;
 			
@@ -127,14 +170,11 @@ package  {
 				t += dt;
 			}
 			
-		}
-		
-		private function nextState():void {
-			var p:Particle = particles;
-			while (p) {
-				p.nextState();
-				p = p.next;
-			}
+			info.text =
+				"Time: "+newTime+"\n"+
+				"Frame time: "+frameTime+"\n"+
+				"Accumulator: "+accumulator;
+			
 		}
 		
 		private function step(t:Number, dt:Number):void {
@@ -161,6 +201,14 @@ package  {
 				op = p;
 				p = p.next;
 			}
+			
+			enemy.shoot();
+			for (var i:int = 0; i < ships.length; i++) {
+				var s:Ship = ships[i];
+				s.nextState();
+				s.update(t, dt);
+			}
+			
 		}
 		
 	}

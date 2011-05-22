@@ -4,6 +4,8 @@
 	import flash.geom.Point;
 	public class Element implements IElement {
 		
+		public var visible:Boolean = true;
+		
 		protected var prev:ElementState;
 		protected var cur:ElementState;
 		
@@ -35,6 +37,10 @@
 			return cur;
 		}
 		
+		
+		public function getMergedState(alpha:Number):ElementState {
+			return new ElementState(new Point(cur.p.x*alpha+prev.p.x*(1-alpha), cur.p.y*alpha+prev.p.y*(1-alpha)));
+		}
 		public function applyMergedState(merged:ElementState, alpha:Number):void {
 			merged.p.x = cur.p.x*alpha+prev.p.x*(1-alpha);
 			merged.p.y = cur.p.y*alpha+prev.p.y*(1-alpha);

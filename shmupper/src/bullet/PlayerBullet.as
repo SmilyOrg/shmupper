@@ -4,8 +4,8 @@ package bullet {
 		/** Cached offset collision lines */
 		public var ca:Line = new Line();
 		public var cb:Line = new Line();
-		public function PlayerBullet(baseElement:Element) {
-			super(baseElement);
+		public function PlayerBullet() {
+			super();
 		}
 	}
 }
