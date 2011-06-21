@@ -1,4 +1,5 @@
 ﻿package {
+	import actions.ActionLoader;
 	import behavior.IBehavior;
 	import behavior.LinearBehavior;
 	import bullet.Bullet;
@@ -9,6 +10,7 @@
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 	import flash.utils.Timer;
@@ -16,16 +18,20 @@
 	import rendering.Renderer;
 	
 	public class Shmupper extends Sprite {
+		[Embed(source='assets/level.xml', mimeType='application/octet-stream')]
+		private var LevelFile:Class;
+		private var levelFile:XML;
 		
 		private var sim:Simulation;
 		private var renderer:Renderer;
+		
+		private var actionLoader:ActionLoader = new ActionLoader();
 		
 		private var time:Number = 0;
 		
 		private var slowdownSimulator:Timer = new Timer(3000);
 		private var slowdownFrameRate:Number = 15;
 		private var originalFrameRate:Number;
-		
 		
 		public function Shmupper():void {
 			if (stage) init();
@@ -35,6 +41,9 @@
 		private function init(e:Event = null):void {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
+			var levelBytes:ByteArray = new LevelFile();
+			levelFile = XML(levelBytes.readUTFBytes(levelBytes.length));
+			
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
@@ -43,6 +52,8 @@
 			
 			sim = new Simulation();
 			addChild(sim);
+			
+			actionLoader.append(levelFile, sim.actionStream);
 			
 			addChild(ConsoleUtil.getInstance());
 			

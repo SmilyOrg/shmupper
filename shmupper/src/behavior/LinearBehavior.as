@@ -22,8 +22,8 @@ package behavior {
 		public function update(e:Element, t:Number, dt:Number):void {
 			if (t < startTime) {
 				e.visible = false;
-				//e.x = origin.x;
-				//e.y = origin.y;
+				e.x = origin.x;
+				e.y = origin.y;
 			} else {
 				e.visible = true;
 				var time:Number = t-startTime;

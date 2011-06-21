@@ -1,4 +1,5 @@
 package  {
+	import actions.ActionStream;
 	import behavior.KeyboardControlBehavior;
 	import behavior.LinearBehavior;
 	import behavior.WavyBehavior;
@@ -47,7 +48,7 @@ package  {
 		private var player:Player;
 		public var ships:Vector.<Ship>;
 		
-		private var enemy:Ship;
+		//private var enemy:Ship;
 		
 		public var particles:Particle = null;
 		/** Particle addition queue */
@@ -60,6 +61,8 @@ package  {
 		
 		private var currentTime:Number;
 		private var accumulator:Number;
+		
+		public var actionStream:ActionStream = new ActionStream();
 		
 		public function Simulation() {
 			addEventListener(Event.ADDED_TO_STAGE, initStage);
@@ -77,19 +80,22 @@ package  {
 			
 			var s:Ship;
 			
-			enemy = s = new Ship(new Point(400, 200));
+			//enemy = s = new Ship(new Point(400, 200));
 			//s.addBehavior(new LinearBehavior(new Point(400, 200), 0, new Point(0, 100)));
 			//s.addBehavior(new KeyboardControlBehavior(stage));
 			//s.addBehavior(new WavyBehavior(new Point(400, 200), 0));
 			//s.addBehavior(new WavyBehavior(new Point(400, 200), 0, 0.005, 0.02));
-			s.addBehavior(new WavyBehavior(new Point(400, 200), 0, 200, 50, 0.02, 0.2));
+			//s.addBehavior(new WavyBehavior(new Point(400, 200), 0, 200, 50, 0.02, 0.2));
 			//s.addBehavior(new WavyBehavior(new Point(400, 200), 0, 200, 50, 0.5, 3));
-			s.addWeapon(new Cannon(10, new Point(0, 0.1)));
-			addShip(s);
+			//s.addWeapon(new Cannon(10, new Point(0, 0.1)));
+			//addShip(s);
 			
 			s = new Ship(new Point(400, 400));
 			s.addBehavior(new KeyboardControlBehavior(stage));
 			s.addWeapon(new Cannon(50, new Point(0, -0.5)));
+			//s.addWeapon(new Cannon(50, new Point(0, -2)));
+			//s.addWeapon(new Cannon(1, new Point(0, -1)));
+			//for (var i:int = 0; i < 100; i++) s.addWeapon(new Cannon(50, Point.polar(0.5, (i+0.5)/100*360)));
 			addShip(s);
 			
 			//player = addShip(new Player(stage, new Point(w/2, h/2))) as Player;
@@ -108,6 +114,13 @@ package  {
 			//ConsoleUtil.show();
 		}
 		
+		public function get enviromentWidth():Number {
+			return w;
+		}
+		public function get enviromentHeight():Number {
+			return h;
+		}
+		
 		public function get stepProgress():Number {
 			return accumulator/dt;
 		}
@@ -117,7 +130,7 @@ package  {
 			accumulator = 0;
 		}
 		
-		private function addShip(s:Ship):Ship {
+		public function addShip(s:Ship):Ship {
 			s.elementsAdded.add(elementsAdded);
 			ships.push(s);
 			return s;
@@ -178,6 +191,8 @@ package  {
 		}
 		
 		private function step(t:Number, dt:Number):void {
+			actionStream.update(this, t, dt);
+			
 			var op:Particle = null;
 			var p:Particle = particles;
 			while (p) {
@@ -202,7 +217,6 @@ package  {
 				p = p.next;
 			}
 			
-			enemy.shoot();
 			for (var i:int = 0; i < ships.length; i++) {
 				var s:Ship = ships[i];
 				s.nextState();
